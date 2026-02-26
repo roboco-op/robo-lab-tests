@@ -1,14 +1,24 @@
 {
-  "name": "webscanner_robo_lab_project",
+  "name": "robo-lab-webscanner-tests",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {},
-  "keywords": [],
+  "description": "Playwright E2E test suite for Robo-Lab Web Scanner (https://webscanner.robo-lab.io/)",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:smoke": "npx playwright test tests/smoke/",
+    "test:regression": "npx playwright test tests/regression/",
+    "test:performance": "npx playwright test tests/performance/",
+    "test:headed": "npx playwright test --headed",
+    "test:ui": "npx playwright test --ui",
+    "test:debug": "npx playwright test --debug",
+    "report": "npx playwright show-report",
+    "codegen": "npx playwright codegen https://webscanner.robo-lab.io/"
+  },
+  "keywords": ["playwright", "e2e", "testing", "robo-lab", "page-object-model"],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.58.2",
-    "@types/node": "^25.2.2"
+    "@types/node": "^25.2.2",
+    "dotenv": "^16.4.5"
   }
 }
