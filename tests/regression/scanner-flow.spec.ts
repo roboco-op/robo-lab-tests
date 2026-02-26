@@ -7,6 +7,7 @@ test.describe('Scanner Flow - Regression', () => {
    * TC04 - Complete flow: scan website and send report to email
    */
   test('TC04 - Should scan website and send full report to email', async ({ scannerPage, page }) => {
+    test.setTimeout(120000); // scanning a real site can take up to 2 minutes
     await scannerPage.fillUrl(TEST_URLS.roboLab);
     await scannerPage.startScan();
     console.log(`Scanning: ${TEST_URLS.roboLab}`);
@@ -15,7 +16,7 @@ test.describe('Scanner Flow - Regression', () => {
     await scannerPage.takeScreenshot('TC04-01-scan-initiated');
 
     try {
-      await scannerPage.waitForReportSection();
+      await scannerPage.waitForReportSection(90000);
       console.log('Report section appeared');
     } catch {
       await scannerPage.saveDebugInfo('TC04-debug');
