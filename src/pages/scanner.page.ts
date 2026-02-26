@@ -28,7 +28,7 @@ export class ScannerPage extends BasePage {
   }
 
   async waitForReportSection(timeout = 30000) {
-    const reportSection = this.page.locator('text=Get Your Full Report, text=Full Report, text=Send Report').first();
+    const reportSection = this.page.locator(':text("Get Your Full Report"), :text("Full Report"), :text("Send Report")').first();
     await reportSection.waitFor({ state: 'visible', timeout });
   }
 
