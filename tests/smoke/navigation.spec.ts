@@ -8,7 +8,7 @@ test.describe('Navigation - Smoke', () => {
     await page.waitForLoadState('networkidle');
   });
 
-  test('TC02 - Should navigate through all menu items', async ({ page }) => {
+  test('TC02 - Should navigate through all menu items', async ({ page }) => { 
     const header = page.locator('header');
     const bookButton = header.locator('button:has-text("Book Consultation"), button:has-text("Book")').first();
     const logoButton = header.locator('button img[alt*="Logo"], button img[alt*="RoboLab"], button').first();
@@ -17,6 +17,14 @@ test.describe('Navigation - Smoke', () => {
       await bookButton.click();
       await page.waitForTimeout(1000);
       console.log('Clicked Book Consultation button');
+
+      // Close the modal that opens before attempting to click anything else
+      const modal = page.locator('[role="dialog"][aria-modal="true"]');
+      if (await modal.isVisible()) {
+        await page.keyboard.press('Escape');
+        await modal.waitFor({ state: 'hidden' });
+        console.log('Closed modal');
+      }
     }
 
     if (await logoButton.count() > 0 && await logoButton.isVisible()) {
