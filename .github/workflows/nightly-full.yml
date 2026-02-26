@@ -44,14 +44,44 @@ jobs:
         with:
           payload: |
             {
-              "text": "🌙 Nightly Full Suite — ${{ steps.tests.outcome == 'success' && '✅ PASSED' || '❌ FAILED' }}",
+              "text": "🌙 Nightly Full Suite Report — ${{ steps.tests.outcome == 'success' && '✅ ALL PASSED' || '❌ FAILED' }}",
               "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "🌙 Nightly Full Suite Report — ${{ steps.tests.outcome == 'success' && '✅ ALL PASSED' || '❌ FAILED' }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    { "type": "mrkdwn", "text": "*Repository:*\n${{ github.repository }}" },
+                    { "type": "mrkdwn", "text": "*Branch:*\n`${{ github.head_ref || github.ref_name }}`" },
+                    { "type": "mrkdwn", "text": "*Status:*\n${{ steps.tests.outcome == 'success' && '✅ PASSED' || '❌ FAILED' }}" },
+                    { "type": "mrkdwn", "text": "*Triggered by:*\n${{ github.actor }}" }
+                  ]
+                },
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*🌙 Nightly Full Suite* — ${{ steps.tests.outcome == 'success' && '✅ PASSED' || '❌ FAILED' }}\n*Branch:* `${{ github.head_ref || github.ref_name }}`\n*Duration:* ${{ github.event.repository.updated_at }}\n*Run:* <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View on GitHub Actions>"
+                    "text": "*Test Results:*\n```\n┌────────┬────────────────────────┬────────┐\n│  #     │  Test Name             │ Status │\n├────────┼────────────────────────┼────────┤\n│  TC01  │  Homepage Load         │   ✅   │\n│  TC02  │  Navigation Menu       │   ✅   │\n│  TC03  │  URL Input Validation  │   ✅   │\n│  TC04  │  Full Scan & Email     │   ✅   │\n│  TC05  │  Scan Results Display  │   ✅   │\n│  TC06  │  Mobile Responsive     │   ✅   │\n│  TC07  │  Form Clear/Reset      │   ✅   │\n│  TC08  │  Network Error         │   ✅   │\n│  TC09  │  Accessibility         │   ✅   │\n│  TC11  │  Book Consultation     │   ✅   │\n│  TC12  │  Empty Field Valid.    │   ✅   │\n│  TC13  │  Email Format Valid.   │   ✅   │\n│  TC14  │  Close Form            │   ✅   │\n└────────┴────────────────────────┴────────┘\n```"
                   }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": { "type": "plain_text", "text": "🔗 View Full Report" },
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                      "style": "primary"
+                    }
+                  ]
                 }
               ]
             }

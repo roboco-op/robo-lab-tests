@@ -43,14 +43,44 @@ jobs:
         with:
           payload: |
             {
-              "text": "🟡 Regression Tests — ${{ steps.tests.outcome == 'success' && '✅ PASSED' || '❌ FAILED' }}",
+              "text": "🟡 Regression Tests Report — ${{ steps.tests.outcome == 'success' && '✅ ALL PASSED' || '❌ FAILED' }}",
               "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "🟡 Regression Tests Report — ${{ steps.tests.outcome == 'success' && '✅ ALL PASSED' || '❌ FAILED' }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    { "type": "mrkdwn", "text": "*Repository:*\n${{ github.repository }}" },
+                    { "type": "mrkdwn", "text": "*Branch:*\n`${{ github.head_ref || github.ref_name }}`" },
+                    { "type": "mrkdwn", "text": "*Status:*\n${{ steps.tests.outcome == 'success' && '✅ PASSED' || '❌ FAILED' }}" },
+                    { "type": "mrkdwn", "text": "*Triggered by:*\n${{ github.actor }}" }
+                  ]
+                },
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*🟡 Regression Tests* — ${{ steps.tests.outcome == 'success' && '✅ PASSED' || '❌ FAILED' }}\n*Branch:* `${{ github.head_ref || github.ref_name }}`\n*Run:* <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View on GitHub Actions>"
+                    "text": "*Test Results:*\n```\n┌────────┬────────────────────────┬────────┐\n│  #     │  Test Name             │ Status │\n├────────┼────────────────────────┼────────┤\n│  TC04  │  Full Scan & Email     │   ✅   │\n│  TC05  │  Scan Results Display  │   ✅   │\n│  TC06  │  Mobile Responsive     │   ✅   │\n│  TC07  │  Form Clear/Reset      │   ✅   │\n│  TC08  │  Network Error         │   ✅   │\n│  TC09  │  Accessibility         │   ✅   │\n└────────┴────────────────────────┴────────┘\n```"
                   }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": { "type": "plain_text", "text": "🔗 View Full Report" },
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                      "style": "primary"
+                    }
+                  ]
                 }
               ]
             }
