@@ -25,9 +25,15 @@ export async function assertSuccessMessageVisible(page: Page): Promise<boolean> 
 }
 
 export async function assertValidationErrorsVisible(page: Page): Promise<boolean> {
+  // Check HTML5 native constraint validation (required attribute triggers :invalid state)
+  const invalidInputs = await page.locator('input:invalid, textarea:invalid, select:invalid').count();
+  if (invalidInputs > 0) return true;
+
+  // Check custom validation error elements
   const selectors = [
     '.error', '.error-message', '[role="alert"]',
     '.invalid-feedback', '.field-error', 'text=required', 'text=Required',
+    '[class*="text-red"]', '[class*="error"]',
   ];
   for (const selector of selectors) {
     const el = page.locator(selector);
