@@ -2,8 +2,7 @@ import { test, expect } from '../../src/fixtures/scanner.fixture';
 
 test.describe('Accessibility - Regression', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await page.goto('/', { waitUntil: 'load' });
   });
 
   /**

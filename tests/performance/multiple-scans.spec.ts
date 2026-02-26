@@ -15,8 +15,7 @@ test.describe('Performance - Multiple Scans', () => {
           inputReady = true;
           break;
         }
-        await page.reload();
-        await page.waitForLoadState('networkidle');
+        await page.reload({ waitUntil: 'load' });
       }
       if (!inputReady) throw new Error(`URL input not available for scan ${i + 1}`);
 

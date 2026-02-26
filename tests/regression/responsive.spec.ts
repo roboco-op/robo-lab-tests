@@ -6,8 +6,7 @@ test.describe('Responsive Design - Regression', () => {
    */
   test('TC06 - Should display correctly on mobile viewport', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await page.goto('/', { waitUntil: 'load' });
 
     const mainContent = page.locator('main, #root, .container').first();
     await expect(mainContent).toBeVisible();

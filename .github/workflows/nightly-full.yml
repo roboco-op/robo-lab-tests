@@ -24,10 +24,12 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Full Test Suite
+        id: tests
         run: npx playwright test
         env:
           BASE_URL: https://webscanner.robo-lab.io/
           HEADLESS: true
+          NAVIGATION_TIMEOUT: 60000
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
@@ -35,3 +37,24 @@ jobs:
           name: nightly-report-${{ github.run_id }}
           path: playwright-report/
           retention-days: 30
+
+      - name: Notify Slack
+        if: always()
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "text": "🌙 Nightly Full Suite — ${{ steps.tests.outcome == 'success' && '✅ PASSED' || '❌ FAILED' }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*🌙 Nightly Full Suite* — ${{ steps.tests.outcome == 'success' && '✅ PASSED' || '❌ FAILED' }}\n*Branch:* `${{ github.head_ref || github.ref_name }}`\n*Duration:* ${{ github.event.repository.updated_at }}\n*Run:* <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View on GitHub Actions>"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

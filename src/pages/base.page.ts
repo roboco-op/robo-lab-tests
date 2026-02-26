@@ -6,8 +6,7 @@ export class BasePage {
   constructor(protected readonly page: Page) {}
 
   async goto(url = '/') {
-    await this.page.goto(url);
-    await this.page.waitForLoadState('networkidle');
+    await this.page.goto(url, { waitUntil: 'load' });
   }
 
   async takeScreenshot(filename: string) {

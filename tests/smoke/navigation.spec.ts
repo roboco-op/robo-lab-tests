@@ -4,8 +4,7 @@ import * as path from 'path';
 
 test.describe('Navigation - Smoke', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await page.goto('/', { waitUntil: 'load' });
   });
 
   test('TC02 - Should navigate through all menu items', async ({ page }) => { 
