@@ -20,10 +20,11 @@ test.describe('Scanner Flow - Regression', () => {
       console.log('Report section appeared');
     } catch {
       await scannerPage.saveDebugInfo('TC04-debug');
-      throw new Error('Report section did not appear after scan');
+      throw new Error('Report section did not appear after scan'); 
     }
 
     await scannerPage.fillReportEmail(TEST_EMAIL);
+    expect(await scannerPage.emailInput.inputValue()).toBe(TEST_EMAIL);
     await scannerPage.takeScreenshot('TC04-02-email-filled');
 
     await scannerPage.sendReport();
@@ -32,8 +33,6 @@ test.describe('Scanner Flow - Regression', () => {
 
     const success = await assertSuccessMessageVisible(page);
     console.log(success ? `Report sent to ${TEST_EMAIL}` : 'Success message not found, but report was submitted');
-
-    expect(await scannerPage.emailInput.inputValue()).toBe(TEST_EMAIL);
   });
 
   /**
