@@ -132,12 +132,43 @@ npx playwright show-report
 
 ```
 robo-lab-tests/
-├── robo-lab-tests.spec.ts   # Main test file
-├── playwright.config.ts      # Playwright configuration
-├── package.json              # Project dependencies
-├── tsconfig.json            # TypeScript configuration
-├── test-results/            # Test artifacts (screenshots, videos)
-└── playwright-report/       # HTML test reports
+├── .github/
+│   └── workflows/
+│       ├── ci-smoke.yml          # Smoke test CI workflow (on push/PR)
+│       ├── ci-regression.yml     # Regression test CI workflow
+│       └── nightly-full.yml      # Nightly full suite + Slack notifications
+├── src/
+│   ├── assertions/
+│   │   └── scanner-assertions.ts # Custom assertion helpers
+│   ├── fixtures/
+│   │   └── scanner.fixture.ts    # Playwright test fixtures
+│   ├── pages/
+│   │   ├── base.page.ts          # Base page object
+│   │   ├── scanner.page.ts       # Scanner page object
+│   │   └── consultation.page.ts  # Consultation page object
+│   ├── types/
+│   │   └── scanner.types.ts      # TypeScript type definitions
+│   └── utils/
+│       ├── test-data.ts          # Test data constants
+│       └── wait-helpers.ts       # Custom wait utilities
+├── tests/
+│   ├── smoke/
+│   │   ├── homepage.spec.ts      # TC01: Homepage load
+│   │   ├── navigation.spec.ts    # TC02: Navigation menu
+│   │   └── url-input.spec.ts     # TC03: URL input validation
+│   ├── regression/
+│   │   ├── scanner-flow.spec.ts  # TC04-05: Scan flow & results
+│   │   ├── responsive.spec.ts    # TC06-07: Mobile & form reset
+│   │   ├── error-handling.spec.ts# TC08: Network error handling
+│   │   ├── accessibility.spec.ts # TC09: Accessibility standards
+│   │   └── consultation.spec.ts  # TC11-14: Book consultation flow
+│   └── performance/
+│       └── multiple-scans.spec.ts# TC10: Multiple consecutive scans
+├── playwright.config.ts          # Playwright configuration
+├── package.json                  # Project dependencies
+├── tsconfig.json                 # TypeScript configuration
+├── test-results/                 # Test artifacts (screenshots, videos)
+└── playwright-report/            # HTML test reports
 ```
 
 ## 🔧 Configuration
